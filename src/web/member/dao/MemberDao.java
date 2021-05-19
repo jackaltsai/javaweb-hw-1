@@ -15,4 +15,6 @@ public interface MemberDao {
     Member selectById(Integer id);
     
     List<Member> selectAll();
+    
+    Boolean checkMember(Member member);
 }
