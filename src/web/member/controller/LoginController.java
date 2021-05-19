@@ -18,17 +18,7 @@ import web.member.service.MemberService;
 @WebServlet("/member/login")
 public class LoginController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	// Service層
-    private MemberService memberService;
 
-    // 實例化 (GenericServlet() 父代)
-    @Override
-    public void init() throws ServletException {
-        super.init();
-        
-        memberService = new MemberService();
-    }
-       
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    doPost(request, response);
 	}
@@ -37,6 +27,8 @@ public class LoginController extends HttpServlet {
 	    // request & response 的編碼方式
         request.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=UTF-8");
+        // 
+        Gson gson = new Gson();
         
         // 讀入JSON格式的會員資料，驗證會員
         try (
@@ -46,7 +38,8 @@ public class LoginController extends HttpServlet {
                 PrintWriter pw = response.getWriter();
         ) {
             // 讀入JSON格式的會員資料
-            Member member = new Gson().fromJson(br, Member.class);
+            Member member = Member.getInstance();
+            member = gson.fromJson(br, Member.class);
             
             // 驗證帳號
             if (MemberService.memberLogin(member)) {

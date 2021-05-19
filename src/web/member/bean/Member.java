@@ -2,6 +2,7 @@ package web.member.bean;
 
 import java.sql.Timestamp;
 
+// Singleton 模式
 public class Member {
     private Integer id;
     private String account;
@@ -10,11 +11,22 @@ public class Member {
     private Boolean pass;
     private Timestamp lastUpdateDate;
     
-    public Member() {
+    // Singleton
+    private static Member instance;
+    
+    public static Member getInstance(){
+        // 第一次被呼叫的時候再建立物件
+        if(instance == null){
+            instance = new Member();
+        } 
+        return instance;
+    }
+    
+    private Member() {
         
     }
     
-    public Member(Integer id, String account, String password, String nickname, Boolean pass,
+    private Member(Integer id, String account, String password, String nickname, Boolean pass,
             Timestamp lastUpdateDate) {
         super();
         this.id = id;
