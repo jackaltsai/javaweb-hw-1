@@ -19,4 +19,8 @@ public class MemberService {
         }
         return false;
     }
+    
+    public int insert(Member member) {
+    	return dao.insert(member);
+    }
 }
