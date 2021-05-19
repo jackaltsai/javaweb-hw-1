@@ -50,10 +50,23 @@ public class MemberDaoImpl implements MemberDao {
     }
 
     @Override
-    public int update(Member member) {
-        
+    public Boolean update(Member member) {
+    	final String sql = "update MEMBER set PASSWORD = ?, NICKNAME = ?, LAST_UPDATE_DATE =? where ACCOUNT = ?";
+        try(Connection conn = dataSource.getConnection();
+        	PreparedStatement pstmt = conn.prepareStatement(sql);
+        		){
+        	//TODO .getInstance();
+        	pstmt.setString(1, member.getPassword());
+			pstmt.setString(2, member.getNickname());
+			pstmt.setTimestamp(3, member.getLastUpdateDate());
+			pstmt.setString(4, member.getAccount());
+			pstmt.executeUpdate();
+			return true;
+        }catch(Exception e) {
+        	e.printStackTrace();
+        }
         // 錯誤代碼 -1 回傳
-        return -1;
+        return false;
     }
 
     @Override
