@@ -38,7 +38,8 @@ public class MemberDaoImpl implements MemberDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return -1;
+        // 錯誤代碼 -1 回傳
+        return -1;
     }
 
     @Override
