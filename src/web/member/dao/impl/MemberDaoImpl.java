@@ -23,22 +23,23 @@ public class MemberDaoImpl implements MemberDao {
     }
 	
     @Override
-    public int insert(Member member) {
+    public Boolean insert(Member member) {
     	final String sql = "insert into MEMBER (ACCOUNT,PASSWORD,NICKNAME) values (?,?,?)";
     	
 		try (
 			Connection conn = dataSource.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(sql)
 			){
-			pstmt.setString(1, "Emilia tan");
-			pstmt.setString(2, "test123");
-			pstmt.setString(3, "emt");
-				return pstmt.executeUpdate();
+			pstmt.setString(1, member.getAccount());
+			pstmt.setString(2, member.getPassword());
+			pstmt.setString(3, member.getNickname());
+			pstmt.executeUpdate();
+		return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
         // 錯誤代碼 -1 回傳
-        return -1;
+        return false;
     }
 
     @Override

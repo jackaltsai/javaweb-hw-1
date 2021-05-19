@@ -18,17 +18,7 @@ import web.member.service.MemberService;
 @WebServlet("/member/login")
 public class LoginController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	// Service層
-    private MemberService memberService;
 
-    // 實例化 (GenericServlet() 父代)
-    @Override
-    public void init() throws ServletException {
-        super.init();
-        
-        memberService = new MemberService();
-    }
-       
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    doPost(request, response);
 	}
@@ -42,7 +32,6 @@ public class LoginController extends HttpServlet {
         try (
                 // 取得用來從前端讀入純文字資料的Reader
                 BufferedReader br = request.getReader();
-                // 
                 PrintWriter pw = response.getWriter();
         ) {
             // 讀入JSON格式的會員資料
