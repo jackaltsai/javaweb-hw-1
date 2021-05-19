@@ -44,6 +44,7 @@ public class RegisterController extends HttpServlet {
 				String string = new Gson().toJson(member);
 				pw.print(string);
 			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
