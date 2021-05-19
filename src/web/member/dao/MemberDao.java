@@ -6,7 +6,7 @@ import web.member.bean.Member;
 
 public interface MemberDao {
     
-    int insert(Member member);
+    Boolean insert(Member member);
     
     int deleteById(Integer id);
     

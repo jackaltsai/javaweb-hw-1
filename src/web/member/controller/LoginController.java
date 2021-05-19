@@ -34,7 +34,6 @@ public class LoginController extends HttpServlet {
         try (
                 // 取得用來從前端讀入純文字資料的Reader
                 BufferedReader br = request.getReader();
-                // 
                 PrintWriter pw = response.getWriter();
         ) {
             // 讀入JSON格式的會員資料
