@@ -22,6 +22,7 @@ public class MemberDaoImpl implements MemberDao {
 	}
     @Override
     public int insert(Member member) {
+<<<<<<< HEAD
     	final String sql = "insert into MEMBER_Test(ACCOUNT,PASSWORD,NICKNAME) values (?,?,?)";
 //		Member member2 = new Member();
 		try (
@@ -40,6 +41,13 @@ public class MemberDaoImpl implements MemberDao {
 		}
 		return -1;
 	}
+=======
+        
+        // 錯誤代碼 -1 回傳
+        return 0;
+    }
+
+>>>>>>> future_Register
     @Override
     public int deleteById(Integer id) {
         
