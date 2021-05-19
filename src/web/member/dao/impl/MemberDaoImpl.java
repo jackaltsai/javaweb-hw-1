@@ -44,7 +44,7 @@ public class MemberDaoImpl implements MemberDao {
 =======
         
         // 錯誤代碼 -1 回傳
-        return 0;
+        return -1;
     }
 
 >>>>>>> future_Register
