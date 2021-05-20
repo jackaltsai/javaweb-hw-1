@@ -3,10 +3,13 @@ package web.member.dao.impl;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
+import javax.swing.plaf.synth.SynthScrollPaneUI;
 
 import web.member.bean.Member;
 import web.member.dao.MemberDao;
@@ -48,26 +51,25 @@ public class MemberDaoImpl implements MemberDao {
         // 錯誤代碼 -1 回傳
         return -1;
     }
-
-    @Override
+    
     public Boolean update(Member member) {
-    	final String sql = "update MEMBER set PASSWORD = ?, NICKNAME = ?, LAST_UPDATE_DATE =? where ACCOUNT = ?";
-        try(Connection conn = dataSource.getConnection();
-        	PreparedStatement pstmt = conn.prepareStatement(sql);
-        		){
-        	//TODO .getInstance();
-        	pstmt.setString(1, member.getPassword());
+		final String sql = "update MEMBER set PASSWORD = ?, NICKNAME = ?,LAST_UPDATE_DATE = ? where ACCOUNT = ?";
+		try(
+			Connection conn = dataSource.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			){
+			pstmt.setString(1, member.getPassword());
 			pstmt.setString(2, member.getNickname());
-			pstmt.setTimestamp(3, member.getLastUpdateDate());
+			pstmt.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
 			pstmt.setString(4, member.getAccount());
 			pstmt.executeUpdate();
-			return true;
-        }catch(Exception e) {
-        	e.printStackTrace();
-        }
-        // 錯誤代碼 -1 回傳
-        return false;
-    }
+		return true;
+		
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 
     @Override
     public Member selectById(Integer id) {
