@@ -1,5 +1,5 @@
 const submit = document.getElementById('submit');
-submit.onclick = () => {
+/*submit.onclick = () => {
 	fetch("../login")
 	.then(res => {
 		return res.json(); 
@@ -8,4 +8,4 @@ submit.onclick = () => {
 		var password = document.getElementById("password").value;
 		console.log('${account} ${password}');
 	});
-};
+};*/

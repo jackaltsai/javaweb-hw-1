@@ -28,15 +28,21 @@ public class MemberDaoImpl implements MemberDao {
     @Override
     public Boolean insert(Member member) {
     	final String sql = "insert into MEMBER (ACCOUNT,PASSWORD,NICKNAME) values (?,?,?)";
-    	
+    	String[] generatedColumns = {"ID"};
 		try (
 			Connection conn = dataSource.getConnection();
-			PreparedStatement pstmt = conn.prepareStatement(sql)
+			PreparedStatement pstmt = conn.prepareStatement(sql,generatedColumns);
 			){
 			pstmt.setString(1, member.getAccount());
 			pstmt.setString(2, member.getPassword());
 			pstmt.setString(3, member.getNickname());
 			pstmt.executeUpdate();
+			ResultSet rs = pstmt.getGeneratedKeys();
+			
+			while (rs.next()) {
+				Member.getInstance().setId(rs.getInt(1));
+			}
+			
 		return true;
 		} catch (Exception e) {
 			e.printStackTrace();
