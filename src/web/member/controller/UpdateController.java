@@ -36,7 +36,7 @@ public class UpdateController extends HttpServlet {
 			
 	        Member member = gson.fromJson(br, Member.class);
 	        
-			if (MemberService.update(member)) {
+			if (MemberService.update(member) > 0) {
 				String string = gson.toJson(member);
 				pw.print(string);
 			}else {

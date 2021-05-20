@@ -24,10 +24,7 @@ public class MemberService {
     	return false;
     }
     
-    public static boolean update(Member member) {
-		if (dao.update(member)) {
-			return true;
-		}
-    	return false;
+    public static int update(Member member) {
+		return dao.update(member);
 	}
 }

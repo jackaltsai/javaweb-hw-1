@@ -52,7 +52,7 @@ public class MemberDaoImpl implements MemberDao {
         return -1;
     }
     
-    public Boolean update(Member member) {
+    public int update(Member member) {
 		final String sql = "update MEMBER set PASSWORD = ?, NICKNAME = ?,LAST_UPDATE_DATE = ? where ACCOUNT = ?";
 		try(
 			Connection conn = dataSource.getConnection();
@@ -62,13 +62,13 @@ public class MemberDaoImpl implements MemberDao {
 			pstmt.setString(2, member.getNickname());
 			pstmt.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
 			pstmt.setString(4, member.getAccount());
-			pstmt.executeUpdate();
-		return true;
+			
+			return pstmt.executeUpdate();
 		
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
-		return false;
+		return -1;
 	}
 
     @Override

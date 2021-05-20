@@ -10,7 +10,7 @@ public interface MemberDao {
     
     int deleteById(Integer id);
     
-    Boolean update(Member member);
+    int update(Member member);
     
     Member selectById(Integer id);
     
