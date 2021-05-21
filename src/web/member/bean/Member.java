@@ -2,7 +2,6 @@ package web.member.bean;
 
 import java.sql.Timestamp;
 
-// Singleton 模式
 public class Member {
     private Integer id;
     private String account;
@@ -11,7 +10,10 @@ public class Member {
     private Boolean pass;
     private Timestamp lastUpdateDate;
     
-    // Singleton
+    // 現在狀態
+    private Boolean status;
+    
+    // Singleton 使用者唯一member物件
     private static Member instance;
     
     public static Member getInstance(){
@@ -23,18 +25,22 @@ public class Member {
     }
     
     private Member() {
-        
+        this.status = false;
     }
     
     private Member(Integer id, String account, String password, String nickname, Boolean pass,
             Timestamp lastUpdateDate) {
-        super();
         this.id = id;
         this.account = account;
         this.password = password;
         this.nickname = nickname;
         this.pass = pass;
         this.lastUpdateDate = lastUpdateDate;
+        this.status = false;
+    }
+
+    public void clear() {
+        instance = null;
     }
 
     public Integer getId() {
@@ -83,5 +89,13 @@ public class Member {
 
     public void setLastUpdateDate(Timestamp lastUpdateDate) {
         this.lastUpdateDate = lastUpdateDate;
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
     }
 }

@@ -86,12 +86,12 @@ public class MemberDaoImpl implements MemberDao {
             // rs -> 結果集
             while (rs.next()) {
                 // rs.get型態(“欄名”);
-                member.setId(rs.getInt("ID"));
-                member.setAccount(rs.getString("ACCOUNT"));
-                member.setPassword(rs.getString("PASSWORD"));
-                member.setNickname(rs.getString("NICKNAME"));
-                member.setPass(rs.getBoolean("PASS"));
-                member.setLastUpdateDate(rs.getTimestamp("LAST_UPDATE_DATE"));
+                Member.getInstance().setId(rs.getInt("ID"));
+                Member.getInstance().setAccount(rs.getString("ACCOUNT"));
+                Member.getInstance().setPassword(rs.getString("PASSWORD"));
+                Member.getInstance().setNickname(rs.getString("NICKNAME"));
+                Member.getInstance().setPass(rs.getBoolean("PASS"));
+                Member.getInstance().setLastUpdateDate(rs.getTimestamp("LAST_UPDATE_DATE"));
                 return true;
             }
         } catch (Exception e) {

@@ -15,12 +15,11 @@ import com.google.gson.Gson;
 import web.member.bean.Member;
 import web.member.service.MemberService;
 
-@WebServlet("/member/login")
-public class LoginController extends HttpServlet {
+@WebServlet("/member/logout")
+public class LogoutController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+       
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	    doPost(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -28,25 +27,21 @@ public class LoginController extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=UTF-8");
         
-        // 讀入JSON格式的會員資料，驗證會員
+        // 清除 Member 物件
+        System.out.println("登出前 帳號: " + Member.getInstance().getAccount());
+        if (MemberService.memberLogout()) {
+            System.out.println("登出成功");
+        }
+        System.out.println("登出後 帳號: " + Member.getInstance().getAccount());
+        // 
         try (
                 // 取得用來從前端讀入純文字資料的Reader
                 BufferedReader br = request.getReader();
                 PrintWriter pw = response.getWriter();
         ) {
-            // 讀入JSON格式的會員資料
-            Member member = new Gson().fromJson(br, Member.class);
-            
-            // 驗證帳號
-            if (MemberService.memberLogin(member)) {
-                // JSON格式寫出
-                String string = new Gson().toJson(Member.getInstance());
-                pw.print(string);
-            }
-            else {
-                // 查無會員
-                pw.print("Member IS Null");
-            }
+            // JSON格式寫出(測試)
+            //String string = new Gson().toJson(member);
+            //pw.print(string);
             
         } catch (Exception e) {
             e.printStackTrace();
