@@ -35,4 +35,8 @@ public class MemberService {
 		}
     	return false;
     }
+    
+    public static int update(Member member) {
+		return dao.update(member);
+	}
 }

@@ -3,10 +3,13 @@ package web.member.dao.impl;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
+import javax.swing.plaf.synth.SynthScrollPaneUI;
 
 import web.member.bean.Member;
 import web.member.dao.MemberDao;
@@ -25,15 +28,21 @@ public class MemberDaoImpl implements MemberDao {
     @Override
     public Boolean insert(Member member) {
     	final String sql = "insert into MEMBER (ACCOUNT,PASSWORD,NICKNAME) values (?,?,?)";
-    	
+    	String[] generatedColumns = {"ID"};
 		try (
 			Connection conn = dataSource.getConnection();
-			PreparedStatement pstmt = conn.prepareStatement(sql)
+			PreparedStatement pstmt = conn.prepareStatement(sql,generatedColumns);
 			){
 			pstmt.setString(1, member.getAccount());
 			pstmt.setString(2, member.getPassword());
 			pstmt.setString(3, member.getNickname());
 			pstmt.executeUpdate();
+			ResultSet rs = pstmt.getGeneratedKeys();
+			
+			while (rs.next()) {
+				Member.getInstance().setId(rs.getInt(1));
+			}
+			
 		return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -48,13 +57,25 @@ public class MemberDaoImpl implements MemberDao {
         // 錯誤代碼 -1 回傳
         return -1;
     }
-
-    @Override
+    
     public int update(Member member) {
-        
-        // 錯誤代碼 -1 回傳
-        return -1;
-    }
+		final String sql = "update MEMBER set PASSWORD = ?, NICKNAME = ?,LAST_UPDATE_DATE = ? where ACCOUNT = ?";
+		try(
+			Connection conn = dataSource.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			){
+			pstmt.setString(1, member.getPassword());
+			pstmt.setString(2, member.getNickname());
+			pstmt.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
+			pstmt.setString(4, member.getAccount());
+			
+			return pstmt.executeUpdate();
+		
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return -1;
+	}
 
     @Override
     public Member selectById(Integer id) {
