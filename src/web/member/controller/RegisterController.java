@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import web.member.bean.Member;
 import web.member.service.MemberService;
@@ -36,14 +38,19 @@ public class RegisterController extends HttpServlet {
 				// 取得用來從前端讀入純文字資料的Reader
 				BufferedReader br = request.getReader();
 				PrintWriter pw = response.getWriter();) {
-			// 讀入JSON格式的會員資料
-			Member member = Member.getInstance();
-			member = gson.fromJson(br, Member.class);
+			
+			JsonObject obj = new Gson().fromJson(br, JsonObject.class);
+			JsonElement element = obj.get("account");
 
-			if (MemberService.insert(member)) {
-				String string = new Gson().toJson(member);
+			// 讀入JSON格式的會員資料
+			System.out.println(element.getAsString());
+			
+			if (MemberService.insert(obj)) {
+				obj.addProperty("pass",true);
+				String string = new Gson().toJson(obj);
 				pw.print(string);
 			}
+			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
