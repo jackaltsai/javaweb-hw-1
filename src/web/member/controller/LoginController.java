@@ -40,12 +40,13 @@ public class LoginController extends HttpServlet {
             // 驗證帳號
             if (MemberService.memberLogin(member)) {
                 // JSON格式寫出
-                String string = new Gson().toJson(Member.getInstance());
-                pw.print(string);
+                String stringMember = new Gson().toJson(Member.getInstance());
+                pw.print(stringMember);
             }
             else {
-                // 查無會員
-                pw.print("Member IS Null");
+                // JSON格式寫出
+                String stringMember = new Gson().toJson(Member.getInstance());
+                pw.print(stringMember);
             }
             
         } catch (Exception e) {
