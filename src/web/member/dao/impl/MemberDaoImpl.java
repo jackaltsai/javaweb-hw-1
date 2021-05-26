@@ -67,8 +67,7 @@ public class MemberDaoImpl implements MemberDao {
 			pstmt.setString(1, member.getPassword());
 			pstmt.setString(2, member.getNickname());
 			pstmt.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
-			pstmt.setString(4, member.getAccount());
-			
+			pstmt.setString(4, "OOKK");
 			return pstmt.executeUpdate();
 		
 		}catch (Exception e) {
