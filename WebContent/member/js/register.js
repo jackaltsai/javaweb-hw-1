@@ -29,15 +29,18 @@ function register_click(){
 	console.log(repasswordValue);
 	console.log(nicknameValue);
 
+	if((accountValue.length == 0)||(passwordValue.length == 0)||(repasswordValue.length == 0)||(nicknameValue.length == 0)){
+		alert('不可有欄位為空！！！')
+		return;
+	}
 	if(repasswordValue != passwordValue){
 		alert('重複密碼錯誤');
 		return ;
 	}
 
-	if((passwordValue.length<20)||(passwordValue>4)){
-		// alert('密碼不符合');
-		// return ;
-		msg ="<font color='red'>账号不能为空！</font>";
+	if((passwordValue.length<=5)||(passwordValue.length>=20)){
+		alert('密碼長度不符合');
+		return ;
 	}
 
 	fetch("../register",{
