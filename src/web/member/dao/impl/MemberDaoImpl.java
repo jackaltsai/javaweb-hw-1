@@ -2,6 +2,7 @@ package web.member.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.List;
 
 import javax.naming.InitialContext;
@@ -67,7 +68,31 @@ public class MemberDaoImpl implements MemberDao {
 
     @Override
     public Member selectById(Integer id) {
-        
+    	final String sql = "select * from MEMBER where ID = ?";
+		try (
+				Connection conn = ds.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+			){
+				pstmt.setInt(1, id);
+				try (
+						ResultSet rs = pstmt.executeQuery()
+					){
+					if (rs.next()) {
+						Member member = new Member();
+						member.setId(rs.getInt("ID"));
+						member.setAccount(rs.getString("ACCOUNT"));
+						member.setPassword(rs.getString("PASSWORD"));
+						member.setPass(rs.getBoolean("PASS"));
+						member.setLastUpdateDate(rs.getTimestamp("LAST_UPDATE_DATE"));
+						return member;
+					}
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
         return null;
     }
 
