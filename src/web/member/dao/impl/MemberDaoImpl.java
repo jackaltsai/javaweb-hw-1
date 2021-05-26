@@ -44,7 +44,16 @@ public class MemberDaoImpl implements MemberDao {
 
     @Override
     public int deleteById(Integer id) {
-        
+    	final String sql = "delete from MEMBER where ID = ?";
+		try (
+				Connection conn = ds.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+			){
+				pstmt.setInt(1, id);
+				return pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
         // 錯誤代碼 -1 回傳
         return -1;
     }
