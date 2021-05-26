@@ -1,5 +1,7 @@
 package web.member.service;
 
+import com.google.gson.JsonObject;
+
 import web.member.bean.Member;
 import web.member.dao.MemberDao;
 import web.member.dao.impl.MemberDaoImpl;
@@ -28,9 +30,9 @@ public class MemberService {
         return false;
     }
     
-    public static Boolean insert(Member member) {
+    public static Boolean insert(JsonObject obj) {
     	
-    	if (dao.insert(member)) {
+    	if (dao.insert(obj)) {
 			return true;
 		}
     	return false;
