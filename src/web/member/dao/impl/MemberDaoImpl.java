@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
@@ -115,8 +116,27 @@ public class MemberDaoImpl implements MemberDao {
 
     @Override
     public List<Member> selectAll() {
-        
-        return null;
+    	final String sql = "select * from MEMBER";
+		try (
+				Connection conn = dataSource.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+				ResultSet rs = pstmt.executeQuery();
+			){
+				List<Member> list = new ArrayList<Member>();	
+				while (rs.next()) {
+					Member.getInstance().setId(rs.getInt("ID"));
+					Member.getInstance().setAccount(rs.getString("ACCOUNT"));
+					Member.getInstance().setPassword(rs.getString("PASSWORD"));
+					Member.getInstance().setPass(rs.getBoolean("PASS"));
+					Member.getInstance().setLastUpdateDate(rs.getTimestamp("LAST_UPDATE_DATE"));
+					list.add(Member.getInstance());
+				}
+				return list;
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
     }
     
     @Override
