@@ -30,7 +30,7 @@ public class MemberService {
         return false;
     }
     
-    public static Boolean insert(JsonObject obj) {
+    public static Boolean register(JsonObject obj) {
     	
     	if (dao.insert(obj)) {
 			return true;

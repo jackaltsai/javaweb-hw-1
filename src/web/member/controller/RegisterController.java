@@ -20,7 +20,6 @@ import web.member.service.MemberService;
 @WebServlet("/member/register")
 public class RegisterController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private Gson gson = new Gson();
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -39,13 +38,15 @@ public class RegisterController extends HttpServlet {
 				BufferedReader br = request.getReader();
 				PrintWriter pw = response.getWriter();) {
 			
+			Member member = Member.getInstance();
+			
 			JsonObject obj = new Gson().fromJson(br, JsonObject.class);
 			JsonElement element = obj.get("account");
 
 			// 讀入JSON格式的會員資料
 			System.out.println(element.getAsString());
 			
-			if (MemberService.insert(obj)) {
+			if (MemberService.register(obj)) {
 				obj.addProperty("pass",true);
 				String string = new Gson().toJson(obj);
 				pw.print(string);
