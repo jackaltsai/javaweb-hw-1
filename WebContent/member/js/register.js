@@ -72,14 +72,5 @@ function register_click(){
         console.log(error);
     })
     ;
-
-
-
-}
-
->>>>>>> future_Register
-
-function trim(s){
-   return s.replace(/^\s+|\s+$/g,"");
 }
 
