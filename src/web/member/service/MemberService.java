@@ -41,4 +41,8 @@ public class MemberService {
     public static int update(Member member) {
 		return dao.update(member);
 	}
+    
+    public static Member selectById(Integer id) {
+    	return dao.selectById(id);
+    }
 }

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import web.member.bean.Member;
 import web.member.service.MemberService;
@@ -30,13 +31,17 @@ public class UpdateController extends HttpServlet {
 				BufferedReader br = request.getReader();
 				PrintWriter pw = response.getWriter();
 			){
+			
 			// 讀入JSON格式的會員資料
 	        Member member = GSON.fromJson(br, Member.class);
-	        
 			if (MemberService.update(member) > 0) {
 				String string = GSON.toJson(member);
+				System.out.println(string);
 				pw.print(string);
 			}
+			
+			
+			
 				
 		} catch (Exception e) {
 			e.printStackTrace();

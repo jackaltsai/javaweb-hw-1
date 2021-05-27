@@ -67,7 +67,7 @@ public class MemberDaoImpl implements MemberDao {
     }
     
     public int update(Member member) {
-		final String sql = "update MEMBER set PASSWORD = ?, NICKNAME = ?,LAST_UPDATE_DATE = ? where ACCOUNT = ?";
+		final String sql = "update MEMBER set PASSWORD = ?, NICKNAME = ?,LAST_UPDATE_DATE = ? where ID = ?";
 		try(
 			Connection conn = dataSource.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -75,7 +75,9 @@ public class MemberDaoImpl implements MemberDao {
 			pstmt.setString(1, member.getPassword());
 			pstmt.setString(2, member.getNickname());
 			pstmt.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
-			pstmt.setString(4, "OOKK");
+			//TODO session
+			pstmt.setInt(4, 1);
+			System.out.println(member.getId());
 			return pstmt.executeUpdate();
 		
 		}catch (Exception e) {
@@ -100,6 +102,7 @@ public class MemberDaoImpl implements MemberDao {
 						Member.getInstance().setAccount(rs.getString("ACCOUNT"));
 						Member.getInstance().setPassword(rs.getString("PASSWORD"));
 						Member.getInstance().setPass(rs.getBoolean("PASS"));
+						Member.getInstance().setNickname(rs.getString("NICKNAME"));
 						Member.getInstance().setLastUpdateDate(rs.getTimestamp("LAST_UPDATE_DATE"));
 						return Member.getInstance();
 					}
