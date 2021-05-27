@@ -3,15 +3,12 @@ package web.member.dao.impl;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
-
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
-
 import com.google.gson.JsonObject;
-
 import web.member.bean.Member;
 import web.member.dao.MemberDao;
 
@@ -55,7 +52,16 @@ public class MemberDaoImpl implements MemberDao {
 
     @Override
     public int deleteById(Integer id) {
-        
+    	final String sql = "delete from MEMBER where ID = ?";
+		try (
+				Connection conn = dataSource.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+			){
+				pstmt.setInt(1, id);
+				return pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
         // 錯誤代碼 -1 回傳
         return -1;
     }
@@ -81,14 +87,56 @@ public class MemberDaoImpl implements MemberDao {
 
     @Override
     public Member selectById(Integer id) {
-        
+    	final String sql = "select * from MEMBER where ID = ?";
+		try (
+				Connection conn = dataSource.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+			){
+				pstmt.setInt(1, id);
+				try (
+						ResultSet rs = pstmt.executeQuery()
+					){
+					if (rs.next()) {
+						Member.getInstance().setId(rs.getInt("ID"));
+						Member.getInstance().setAccount(rs.getString("ACCOUNT"));
+						Member.getInstance().setPassword(rs.getString("PASSWORD"));
+						Member.getInstance().setPass(rs.getBoolean("PASS"));
+						Member.getInstance().setLastUpdateDate(rs.getTimestamp("LAST_UPDATE_DATE"));
+						return Member.getInstance();
+					}
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
         return null;
     }
 
     @Override
     public List<Member> selectAll() {
-        
-        return null;
+    	final String sql = "select * from MEMBER";
+		try (
+				Connection conn = dataSource.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+				ResultSet rs = pstmt.executeQuery();
+			){
+				List<Member> list = new ArrayList<Member>();	
+				while (rs.next()) {
+					Member.getInstance().setId(rs.getInt("ID"));
+					Member.getInstance().setAccount(rs.getString("ACCOUNT"));
+					Member.getInstance().setPassword(rs.getString("PASSWORD"));
+					Member.getInstance().setPass(rs.getBoolean("PASS"));
+					Member.getInstance().setLastUpdateDate(rs.getTimestamp("LAST_UPDATE_DATE"));
+					list.add(Member.getInstance());
+				}
+				return list;
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
     }
     
     @Override
