@@ -16,8 +16,4 @@ public class MemberService {
     public int insert() {
     	return dao.insert(member);
     }
-    
-    public int deleteById(Integer id) {
-    	return dao.deleteById(id);
-    }
 }
