@@ -9,11 +9,12 @@ public class Member {
     private String nickname;
     private Boolean pass;
     private Timestamp lastUpdateDate;
+    private String permission;
     
     // 現在狀態
     private Boolean status;
     
-    // Singleton 使用者唯一member物件
+    // Singleton user唯一member物件
     private static Member instance;
     
     public static Member getInstance(){
@@ -24,12 +25,12 @@ public class Member {
         return instance;
     }
     
-    private Member() {
+    public Member() {
         this.status = false;
     }
     
-    private Member(Integer id, String account, String password, String nickname, Boolean pass,
-            Timestamp lastUpdateDate) {
+    public Member(Integer id, String account, String password, String nickname, Boolean pass,
+            Timestamp lastUpdateDate, String permission) {
         this.id = id;
         this.account = account;
         this.password = password;
@@ -37,6 +38,7 @@ public class Member {
         this.pass = pass;
         this.lastUpdateDate = lastUpdateDate;
         this.status = false;
+        this.permission = permission;
     }
 
     public void clear() {
@@ -97,5 +99,13 @@ public class Member {
 
     public void setStatus(Boolean status) {
         this.status = status;
+    }
+
+    public String getPermission() {
+        return permission;
+    }
+
+    public void setPermission(String permission) {
+        this.permission = permission;
     }
 }

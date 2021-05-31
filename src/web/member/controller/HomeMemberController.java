@@ -1,36 +1,40 @@
 package web.member.controller;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.google.gson.Gson;
 
 import web.member.bean.Member;
-import web.member.service.MemberService;
 
-@WebServlet("/member/logout")
-public class LogoutController extends HttpServlet {
+@WebServlet("/member/homeMember")
+public class HomeMemberController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	}
-
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    // request & response 的編碼方式
         request.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=UTF-8");
         
-        // 清除 Member 物件
-        System.out.println("登出前 帳號: " + Member.getInstance().getAccount());
-        
-        // 登出
-        MemberService.memberLogout();
-        request.getSession().invalidate();
-        response.sendRedirect(request.getContextPath() + "/member/html/login.html");
-        
-        System.out.println("登出後 帳號: " + Member.getInstance().getAccount());
+        // 讀入JSON格式的會員資料，驗證會員
+        try (
+                // 取得用來從前端讀入純文字資料的Reader
+                PrintWriter pw = response.getWriter();
+        ) {
+            // JSON格式寫出
+            String stringMember = new Gson().toJson(Member.getInstance());
+            pw.print(stringMember);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 	}
+
 }

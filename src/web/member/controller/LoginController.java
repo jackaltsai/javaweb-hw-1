@@ -39,6 +39,14 @@ public class LoginController extends HttpServlet {
             
             // 驗證帳號
             if (MemberService.memberLogin(member)) {
+                // 每次登入成功要產生新的Session ID
+                if (request.getSession(false) != null) {
+                    request.changeSessionId();
+                }
+                // 登入成功訊息 & 權限
+                request.getSession().setAttribute("isLogin", true);
+                request.getSession().setAttribute("permission", Member.getInstance().getPermission());
+                
                 // JSON格式寫出
                 String stringMember = new Gson().toJson(Member.getInstance());
                 pw.print(stringMember);

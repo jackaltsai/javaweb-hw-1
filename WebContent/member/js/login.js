@@ -44,6 +44,7 @@ function clickBtn() {
         console.log(result);
         if (result.status == true) {
             alert("驗證成功");
+            location.reload();
         } else {
             alert("驗證失敗");
         }
