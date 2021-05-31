@@ -39,7 +39,6 @@ public class RegisterController extends HttpServlet {
 				PrintWriter pw = response.getWriter();) {
 			
 			Member member = Member.getInstance();
-			
 			JsonObject obj = new Gson().fromJson(br, JsonObject.class);
 			JsonElement element = obj.get("account");
 
