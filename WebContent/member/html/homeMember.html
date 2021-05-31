@@ -60,7 +60,8 @@
                 console.log(newRow);
 
                 newCell = newRow.insertCell(0);
-                newCell.innerHTML = "<button onclick='editMember(" + result.id + ")'>編輯</button>";
+                // newCell.innerHTML = "<button onclick='editMember(" + result.id + ")'>編輯</button>";
+                newCell.innerHTML = "<button onclick='editMember()'>編輯</button>";
                 newCell = newRow.insertCell(1);
                 newCell.innerHTML = result.id;
                 newCell = newRow.insertCell(2);
@@ -76,8 +77,11 @@
 			});
 		}
 
-		function editMember(id) {
-
+		function editMember() {
+     
+      //加window才會跳過去
+      window.location = 'http://localhost:8080/javaweb-hw-1/member/html/update.html';
+      
 		}
 	</script>
 </body>

@@ -9,9 +9,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 import web.member.bean.Member;
 import web.member.service.MemberService;
@@ -26,6 +26,7 @@ public class UpdateController extends HttpServlet {
 		// request & response 的編碼方式
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json; charset=UTF-8");
+		
 		try (
 				// 取得用來從前端讀入純文字資料的Reader
 				BufferedReader br = request.getReader();
@@ -36,7 +37,7 @@ public class UpdateController extends HttpServlet {
 	        Member member = GSON.fromJson(br, Member.class);
 			if (MemberService.update(member) > 0) {
 				String string = GSON.toJson(member);
-				System.out.println(string);
+				System.out.println(string + "<-------------updateController");
 				pw.print(string);
 			}
 			

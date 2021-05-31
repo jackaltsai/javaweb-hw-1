@@ -49,15 +49,38 @@
     </div>
 
     <script type="text/javascript">
+        // function getMember() {
+        //     fetch("../../member/FindIdController", {
+        //         method: 'POST',
+        //         body: JSON.stringify(),
+        //         headers: {
+        //             'Content-Type': 'application/json; charset=UTF-8'
+        //         }
+        //     })
+        //         .then(resp => resp.json())
+        //         .then(member => {
+        //             //console.log(member);
+        //             document.getElementById("memberId").value = member.id;
+        //             document.getElementById("account").innerText = member.account;
+        //             document.getElementById("nickname").value = member.nickname;
+        //             document.getElementById('displayNickname').innerText = "歡迎回來，" + member.nickname;
+        //         });
+        // }
         function getMember() {
-            fetch("../../member/FindIdController", {
+            fetch("../../member/homeMember", {
                 method: 'POST',
                 body: JSON.stringify(),
                 headers: {
                     'Content-Type': 'application/json; charset=UTF-8'
                 }
             })
-                .then(resp => resp.json())
+            .then(response => {
+                console.log(response);
+                if (!response.ok) {
+                    throw new Error(response.statusText);
+                }
+                return response.json()
+            })
                 .then(member => {
                     //console.log(member);
                     document.getElementById("memberId").value = member.id;
@@ -66,88 +89,88 @@
                     document.getElementById('displayNickname').innerText = "歡迎回來，" + member.nickname;
                 });
         }
+        
+            function clickBtn() {
 
-        function clickBtn() {
 
+                var memberId = document.getElementById("memberId").value;
+                var password1 = document.getElementById("password1").value;
+                var password2 = document.getElementById("password2").value;
+                var nickname = document.getElementById("nickname").value;
 
-            var memberId = document.getElementById("memberId").value;
-            var password1 = document.getElementById("password1").value;
-            var password2 = document.getElementById("password2").value;
-            var nickname = document.getElementById("nickname").value;
+                var nicknameisok = false;
+                var passwordisok = false;
+                var data_json;
 
-            var nicknameisok = false;
-            var passwordisok = false;
-            var data_json;
+                console.log(nickname);
+                console.log(password1);
 
-            console.log(nickname);
-            console.log(password1);
+                if (password1 != password2) {
+                    alert('密碼不相同');
+                } else if (password1.length < 6 || password1.length > 12) {
+                    alert('密碼: ⻑度6~12');
+                } else if (/\s/.test(password1)) {
+                    alert('密碼不能有空白');
+                } else {
+                    passwordisok = true;
+                }
 
-            if (password1 != password2) {
-                alert('密碼不相同');
-            } else if (password1.length < 6 || password1.length > 12) {
-                alert('密碼: ⻑度6~12');
-            } else if (/\s/.test(password1)) {
-                alert('密碼不能有空白');
-            } else {
-                passwordisok = true;
+                if (nickname < 1 || nickname > 20) {
+                    alert('暱稱: ⻑度1~20');
+                } else if (/\s/.test(nickname)) {
+                    alert('暱稱不能有空白');
+                } else {
+                    nicknameisok = true;
+                    document.getElementById('displayNickname').innerText = "這是您的新暱稱:" + nickname;
+                }
+
+                if (passwordisok && nicknameisok) {
+                    alert('修改成功')
+                    const data = {
+                        memberId: memberId,
+                        nickname: nickname,
+                        password: password1
+                    };
+                    data_json = data;
+                } else if (passwordisok) {
+                    const data = {
+                        memberId: memberId,
+                        password: password1
+                    };
+                    data_json = data;
+                } else if (nicknameisok) {
+                    const data = {
+                        memberId: memberId,
+                        nickname: nickname
+                    };
+                    data_json = data;
+                }
+                fetchJson(data_json);
             }
 
-            if (nickname < 1 || nickname > 20) {
-                alert('暱稱: ⻑度1~20');
-            } else if (/\s/.test(nickname)) {
-                alert('暱稱不能有空白');
-            } else {
-                alert('修改成功')
-                nicknameisok = true;
-                document.getElementById('displayNickname').innerText = nickname;
+
+            function fetchJson(data) {
+                fetch("../../member/update", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json; charset=UTF-8'
+                    },
+                    body: JSON.stringify(data),
+                })
+                    .then(response => {
+                        console.log(response);
+                        if (!response.ok) {
+                            throw new Error(response.statusText);
+                        }
+                        return response.json()
+                    })
+                    .then(data => {
+                        console.log('Success', data);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    })
             }
-
-            if (passwordisok && nicknameisok) {
-                const data = {
-                    memberId: memberId,
-                    nickname: nickname,
-                    password: password1
-                };
-                data_json = data;
-            } else if (passwordisok) {
-                const data = {
-                    memberId: memberId,
-                    password: password1
-                };
-                data_json = data;
-            } else if (nicknameisok) {
-                const data = {
-                    memberId: memberId,
-                    nickname: nickname
-                };
-                data_json = data;
-            }
-            fetchJson(data_json);
-        }
-
-
-        function fetchJson(data) {
-            fetch("../../member/update", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json; charset=UTF-8'
-                },
-                body: JSON.stringify(data),
-            })
-                .then(response => {
-                    console.log(response);
-                    if (!response.ok) {
-                        throw new Error(response.statusText);
-                    }
-                    return response.json()
-                })
-                .then(data => {
-                    console.log('Success', data);
-                })
-                .catch(function (error) {
-                    console.log(error);
-                })
-        }
     </script>
     </div>
 </body>
