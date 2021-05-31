@@ -2,11 +2,13 @@ package web.member.dao;
 
 import java.util.List;
 
+import com.google.gson.JsonObject;
+
 import web.member.bean.Member;
 
 public interface MemberDao {
     
-    int insert(Member member);
+    Boolean insert(JsonObject obj);
     
     int deleteById(Integer id);
     
@@ -15,4 +17,6 @@ public interface MemberDao {
     Member selectById(Integer id);
     
     List<Member> selectAll();
+    
+    Boolean checkMember(Member member);
 }

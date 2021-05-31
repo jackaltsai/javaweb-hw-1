@@ -10,19 +10,37 @@ public class Member {
     private Boolean pass;
     private Timestamp lastUpdateDate;
     
-    public Member() {
-        
+    // 現在狀態
+    private Boolean status;
+    
+    // Singleton 使用者唯一member物件
+    private static Member instance;
+    
+    public static Member getInstance(){
+        // 第一次被呼叫的時候再建立物件
+        if(instance == null){
+            instance = new Member();
+        } 
+        return instance;
     }
     
-    public Member(Integer id, String account, String password, String nickname, Boolean pass,
+    private Member() {
+        this.status = false;
+    }
+    
+    private Member(Integer id, String account, String password, String nickname, Boolean pass,
             Timestamp lastUpdateDate) {
-        super();
         this.id = id;
         this.account = account;
         this.password = password;
         this.nickname = nickname;
         this.pass = pass;
         this.lastUpdateDate = lastUpdateDate;
+        this.status = false;
+    }
+
+    public void clear() {
+        instance = null;
     }
 
     public Integer getId() {
@@ -71,5 +89,13 @@ public class Member {
 
     public void setLastUpdateDate(Timestamp lastUpdateDate) {
         this.lastUpdateDate = lastUpdateDate;
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
     }
 }
