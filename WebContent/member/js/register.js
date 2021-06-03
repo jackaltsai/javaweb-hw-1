@@ -23,7 +23,7 @@ function register_click(){
 	var passwordValue = password.value;
 	var repasswordValue = repassword.value;
 	var nicknameValue = nickname.value;
-	
+
 	console.log(accountValue);
 	console.log(passwordValue);
 	console.log(repasswordValue);
@@ -47,9 +47,10 @@ function register_click(){
         method : 'POST',
         body : JSON.stringify({
             account : accountValue,
-			password : passwordValue,
-			repassword : repasswordValue,
-			nickname : nicknameValue
+						password : passwordValue,
+						repassword : repasswordValue,
+						nickname : nicknameValue
+
         }),
         headers : {
             'Content-Type' : 'application/json; charset=UTF-8'
@@ -65,12 +66,14 @@ function register_click(){
 	.then(result =>{
 		console.log(result);
 		if(result.repassword != result.password){
-			alert()
+			alert("第二次密碼輸入不相符！！！")
+		}
+		if (result.errorCode = "帳號已經存在") {
+			alert("帳號已經存在！！！")
+			return;
 		}
 	})
 	.catch(function (error) {
         console.log(error);
-    })
-    ;
+    });
 }
-

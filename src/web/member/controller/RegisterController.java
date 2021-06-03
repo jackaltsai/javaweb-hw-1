@@ -15,6 +15,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import web.member.bean.Member;
+import web.member.dao.impl.MemberDaoImpl;
 import web.member.service.MemberService;
 
 @WebServlet("/member/register")
@@ -38,7 +39,7 @@ public class RegisterController extends HttpServlet {
 				BufferedReader br = request.getReader();
 				PrintWriter pw = response.getWriter();) {
 			
-			Member member = Member.getInstance();
+			//Member member = Member.getInstance();
 			JsonObject obj = new Gson().fromJson(br, JsonObject.class);
 			JsonElement element = obj.get("account");
 
@@ -49,8 +50,11 @@ public class RegisterController extends HttpServlet {
 				obj.addProperty("pass",true);
 				String string = new Gson().toJson(obj);
 				pw.print(string);
+			}else {
+				obj.addProperty("errorDode", MemberDaoImpl.SQLerror);
+				String string = new Gson().toJson(obj);
+				pw.print(string);
 			}
-			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
