@@ -14,7 +14,7 @@ import web.member.dao.MemberDao;
 
 public class MemberDaoImpl implements MemberDao {
     private DataSource dataSource;
-    
+    public static String SQLerror = null;
     public MemberDaoImpl() {
         try {
             dataSource = (DataSource) new InitialContext().lookup("java:/comp/env/jdbc/example");
@@ -44,7 +44,8 @@ public class MemberDaoImpl implements MemberDao {
 			
 		return true;
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			SQLerror = "帳號已經存在";
 		}
         // 錯誤代碼 -1 回傳
         return false;
