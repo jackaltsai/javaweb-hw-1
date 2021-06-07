@@ -45,6 +45,7 @@
                 </div>
             </div>
             <input type="button" onclick="clickBtn()" value='修改' class="w-48 btn btn-lg btn-primary"></input>
+            <input type="button" onclick="goBack()" value='返回' class="w-48 btn btn-lg btn-primary"></input>
         </div>
     </div>
 
@@ -171,6 +172,9 @@
                         console.log(error);
                     })
             }
+            function goBack() {
+            	  window.history.back();
+            	}
     </script>
     </div>
 </body>

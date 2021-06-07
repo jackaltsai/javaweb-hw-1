@@ -36,14 +36,13 @@ public class UpdateController extends HttpServlet {
 			// 讀入JSON格式的會員資料
 	        Member member = GSON.fromJson(br, Member.class);
 			if (MemberService.update(member) > 0) {
+				Member.getInstance().setNickname(member.getNickname());
+				Member.getInstance().setPassword(member.getPassword());
 				String string = GSON.toJson(member);
 				System.out.println(string + "<-------------updateController");
 				pw.print(string);
 			}
 			
-			
-			
-				
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
