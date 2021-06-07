@@ -4,11 +4,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -50,12 +52,16 @@ public class RegisterController extends HttpServlet {
 				obj.addProperty("pass",true);
 				String string = new Gson().toJson(obj);
 				pw.print(string);
+			
 			}else {
 				obj.addProperty("errorDode", MemberDaoImpl.SQLerror);
 				String string = new Gson().toJson(obj);
 				pw.print(string);
 			}
-			
+			 HttpSession session = request.getSession();
+			 if (session.getAttribute("pass") != null && (Boolean)session.getAttribute("pass")) {
+				 response.sendRedirect(request.getContextPath() + "/member/html/login.html");
+			 }
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
