@@ -45,7 +45,7 @@ public class LoginFilter extends HttpFilter {
                 
             case "admin":
                 // 使用重新導向的方式轉發
-                response.sendRedirect(request.getContextPath() + "/member/html/homeAdmin.html");
+                response.sendRedirect(request.getContextPath() + "/index.html");
                 break;
 
             default:
